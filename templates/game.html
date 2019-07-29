@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Game
+{% endblock %}
+
+{% block main %}
+
+     <p id="top" style="display:none">
+    Oops! You got one wrong. The answer was ""
+    </p>
+    <var id="name" value="{{face['name_first']}}" style="display: none"></var>
+<table class="table">
+    <thead>
+      <tr>
+        <th width="300">Round {{round}}/{{rounds}}</th>
+        <th style="text-align:right">Score: {{score}}%</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><img src="static/images/{{face['img']}}" width="300"></td>
+        <td>
+            <p id="hometown" style="visibility: hidden;">
+                <strong>Hometown:</strong><br />
+                {{face['hometown']}}
+            </p>
+            <p id="year" style="visibility: hidden;">
+                <strong>Year:</strong><br />
+                {{face['year']}}
+            </p>
+            <p id="concentration" style="visibility: hidden;">
+                <strong>Concentration:</strong><br />
+                {{face['concentration']}}
+            </p>
+            <p id="fun_fact"style="visibility: hidden;">
+                <strong>Fun Fact:</strong><br />
+                {{face['funfact']}}
+            </p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+            <form action="/game" method="post">
+            <div class="form-group">
+                <input id="guess" autocomplete="off" autofocus class="form-control" name="guess" placeholder="First name" type="text">
+            <button id="submit" onsubmit="showBanner()" class="btn btn-primary" type="submit">Submit</button>
+            <input name="round" type="hidden" value="{{round}}">
+            </div>
+    </form>
+        </td>
+        <td style="text-align:right"><button class="btn btn-primary" onclick="giveHint()" type="button">Hint</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+
+    var hometown = document.getElementById("hometown");
+    var year = document.getElementById("year");
+    var concentration = document.getElementById("concentration");
+    var fun_fact = document.getElementById("fun_fact");
+    var counter = 0;
+
+    function giveHint(){
+
+        if (counter == 0) {
+            hometown.style.visibility = "visible";
+            counter += 1;
+        }
+        else if (counter == 1){
+            year.style.visibility = "visible";
+            counter += 1;
+        }
+        else if (counter == 2){
+            concentration.style.visibility = "visible";
+            counter += 1;
+        }
+        else if (counter == 3){
+            fun_fact.style.visibility = "visible";
+            counter += 3;
+        }
+
+    }
+
+    var name = document.querySelector('#name').value;
+    var guess = document.querySelector('#guess').value;
+    console.log(name);
+    console.log("print");
+
+    function showBanner(){
+        if (name != guess){
+            top.style.display = "block";
+            $("top").text("Oops! You got one wrong. The answer was 'name'");
+        }
+
+        else{
+            top.style.display = "block";
+            $("top").text("You were right!");
+        }
+    }
+
+</script>
+
+{% endblock %}
+

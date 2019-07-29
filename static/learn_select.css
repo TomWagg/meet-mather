@@ -1,0 +1,23 @@
+main {
+    background-image: url("../static/images/autumn.jpg");
+}
+
+.btn-toggle {
+    outline: 0
+}
+
+.row {
+    text-align: left;
+}
+
+.hide {
+    display: none!important;
+}
+
+.btn:focus, .btn:active, .btn.focus, .btn.active {
+    box-shadow: none!important;
+}
+
+.btn-group .btn {
+    cursor: pointer;
+}

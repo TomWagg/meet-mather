@@ -1,0 +1,56 @@
+#inner_toggle:hover {
+    font-weight: 900;
+}
+
+.btn-toggle {
+    cursor: pointer;
+}
+
+#main {
+    transition: 1s;
+    max-width: 100%;
+    margin-right: 0;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0px;
+    overflow-x: hidden;
+    flex-grow: 0;
+    transition: 1s;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sidenav.sidenav-open {
+    max-width: 20%;
+    flex-grow: 1;
+}
+
+#main.sidenav-open {
+    max-width: 80%;
+}
+
+.sidenav li {
+    transition: 0.3s;
+}
+
+.sidenav .nav-header {
+    padding: 5px 10px;
+}
+.sidenav .nav-item {
+    padding: 0px 10px;
+    padding-left: 34px;
+    cursor: pointer;
+}
+.sidenav .header {
+    padding: 10px;
+    text-align: center;
+}
+
+.nav.flex-column .nav.flex-column {
+    padding-bottom: 20px;
+}
+
+.nav-item:hover {
+    background-color: rgba(0, 0, 0, 0.1)
+}

@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Learn
+{% endblock %}
+
+{% block extra_head %}
+<link href="../static/learn.css" rel="stylesheet">
+<script src="../static/js/learn.js"></script>
+{% endblock %}
+
+{% block main %}
+{% for person in matherites %}
+<div class="row person-row">
+    <div class="col-6 col-pic">
+        <img class="profile-pic" src="../static/images/{{ person.img }}">
+    </div>
+    <div class="col-6 col-details">
+        <div class="d-flex flex-column align-items-center h-100 rounded-flippers">
+            <div class="flex-fill w-100">
+                <div class="panel">
+                    <div class="front bg-danger border-danger text-white p-1 ">
+                        <div class="m-auto"><h4>Hometown</h4></div>
+                    </div>
+                    <div class="back bg-danger border-danger text-black p-1">
+                        <div class="m-auto">{{ person.hometown }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-fill w-100">
+                <div class="panel">
+                    <div class="front bg-danger border-danger p-1 text-white">
+                        <div class="m-auto"><h4>Year</h4></div>
+                    </div>
+                    <div class="back bg-danger border-danger p-1 text-black">
+                        <div class="m-auto">{{ person.year }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-fill w-100">
+                <div class="panel">
+                    <div class="front bg-danger border-danger p-1 text-white">
+                        <div class="m-auto"><h4>Concentration</h4></div>
+                    </div>
+                    <div class="back bg-danger border-danger p-1 text-black">
+                        <div class="m-auto">{{ person.concentration }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-fill w-100">
+                <div class="panel">
+                    <div class="front bg-danger border-danger p-1 text-white">
+                        <div class="m-auto"><h4>Fun Fact</h4></div>
+                    </div>
+                    <div class="back bg-danger border-danger p-1 text-black">
+                        <div class="m-auto">{{ person.funfact }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 mt-4">
+                <div class="input-group">
+                    <input class="form-control name-input" type="text" placeholder="First Name">
+                    <div class="input-group-append">
+                        <button class="btn btn-danger btn-next" tabindex="-1">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="id hide">
+    {{ person.id }}
+</div>
+{% endfor %}
+<div class="row">
+    <div class="col">
+        <hr>
+        <form method="POST" action="/learn" class="hide">
+            <input id="sub_ids" name="ids">
+            <input id="sub_names" name="names">
+            <button type="submit" id="submit_guesses">Actually Submit</button>
+        </form>
+        <button type="button" id="finish" class="btn btn-danger btn-block mb-3">Submit</button>
+    </div>
+</div>
+{% endblock %}

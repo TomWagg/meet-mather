@@ -1,0 +1,29 @@
+html, body {
+    height: 100%;
+    font-family: Ubuntu;
+}
+
+body {
+    display: flex;
+    flex-flow: column;
+}
+
+main {
+    flex-grow: 1;
+}
+
+nav .navbar-brand
+{
+    font-size: xx-large;
+}
+
+#top
+{
+   width: 100%;
+   margin: 0;
+   padding: 0;
+   background-color:#000;
+   color:white;
+   top: 0;
+   left: 0;
+}

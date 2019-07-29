@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {% block pagetitle %}
+    {% endblock %}
+{% endblock %}
+
+{% block extra_head %}
+    <link href="../static/login.css" rel="stylesheet">
+    {% block more_head %}
+    {% endblock %}
+{% endblock %}
+
+{% block main %}
+<div id="login_box" class="row align-items-center justify-content-center">
+    <div class="col-7">
+        <div class="card">
+            <div class="card-header">
+                {% block header %}{% endblock %}
+            </div>
+            <div class="card-body">
+                {% block body %}{% endblock %}
+            </div>
+            <div class="card-footer">
+                {% block footer %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

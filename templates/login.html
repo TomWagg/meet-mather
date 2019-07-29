@@ -1,0 +1,30 @@
+{% extends "centre_form.html" %}
+
+{% block pagetitle %}
+Log In
+{% endblock %}
+
+{% block header %}
+<h3>Log in</h3>
+{% endblock %}
+
+{% block body %}
+<form action="/login" method="post" class="mb-4">
+    <div class="form-group">
+        <input autocomplete="off" autofocus class="form-control w-auto m-auto" name="username" placeholder="Username"
+            type="email">
+    </div>
+    <div class="form-group">
+        <input class="form-control w-auto m-auto" name="password" placeholder="Password" type="password">
+    </div>
+    <button class="btn btn-danger" type="submit">Log In</button>
+</form>
+<form action="/reset" method="post">
+    <p>Forgot password?</p>
+    <button class="btn btn-danger" type="submit">Click here to reset</input>
+</form>
+{% endblock %}
+
+{% block footer %}
+<small>Don't have an account yet? Register <a href="/register">here</a></small>
+{% endblock %}

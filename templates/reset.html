@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+
+    <form action="/send_email" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Enter your Harvard email here" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Reset</button>
+    </form>
+    {{id}}
+
+{% endblock %}

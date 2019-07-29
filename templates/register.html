@@ -1,0 +1,27 @@
+{% extends "centre_form.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block header %}
+<h3>Register</h3>
+{% endblock %}
+
+{% block body %}
+<div class="row text-center">
+    <div class="col">
+        <form action="/register" method="post">
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control w-auto m-auto" name="username" placeholder="Your Harvard e-mail"
+                    type="text">
+            </div>
+            <button class="btn btn-primary" type="submit">Register</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<small>Already have an account? Log in <a href="/login">here</a></small>
+{% endblock %}

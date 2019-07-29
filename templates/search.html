@@ -1,0 +1,140 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+<link href="../static/search.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Shuffle/5.2.2/shuffle.min.js"></script>
+<script src="../static/js/search.js"></script>
+{% endblock %}
+
+{% block main %}
+
+<div id="surprise_toast" class="toast m-2" style="position: absolute; bottom: 0; right: 0; z-index: 10">
+    <div class="toast-header">
+        <strong class="mr-auto">Surprise!</strong>
+        <button type="button" class="ml-2 mb-1 close toast-close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div id="surprise_message" class="toast-body"></div>
+</div>
+<div class="row">
+    <div class="col-3 m-2">
+        <div class="">
+            <div class="row mb-2">
+                <div class="col">
+                    <button id="random" class="btn btn-light btn-block">Surprise Me</button>
+                </div>
+                <div class="col">
+                    <button id="clear" class="btn btn-light btn-block">Clear Filters</button>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col">
+                    <h5>Search</h5>
+                    <input id="search_bar" class="form-control" placeholder="Search">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col">
+                    <div class="row collapse-row" data-toggle="collapse" data-target="#years">
+                        <div class="col">
+                            <h5>Year</h5>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn-collapse" data-toggle="collapse" data-target="#years">
+                                <i class="fa fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="years" class="collapse show">
+                        {% for year in years %}
+                        <button class="btn btn-danger btn-radio mb-1" data-ftype="year"
+                            data-filter="{{ year }}">{{ year }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col">
+                    <div class="row collapse-row" data-toggle="collapse" data-target="#concs">
+                        <div class="col">
+                            <h5>Concentration</h5>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn-collapse" data-toggle="collapse" data-target="#concs">
+                                <i class="fa fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="concs" class="collapse show">
+                        {% for conc in concentrations %}
+                        <button class="btn btn-info btn-radio mb-1" data-ftype="conc"
+                            data-filter="{{ conc }}">{{ conc }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col">
+                    <div class="row collapse-row" data-toggle="collapse" data-target="#entryways">
+                        <div class="col">
+                            <h5>Entryway</h5>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn-collapse" data-toggle="collapse" data-target="#entryways">
+                                <i class="fa fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="entryways" class="collapse show">
+                        {% for entryway in entryways %}
+                        <button class="btn btn-primary btn-radio mb-1" data-ftype="entryway"
+                            data-filter="{{ entryway }}">{{ entryway }}</button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="main" class="col m-2">
+        <div class="row grid mb-2 mt-2">
+            {% for user in users %}
+            <div class="col-4 mb-4 picture-item" data-name="{{user.name_first}} {{user.name_last}}"
+                data-year='{{ user.year }}' data-conc='{{ user.concentration }}' data-entryway='{{ user.entryway }}'
+                data-groups='["{{ user.year }}", "{{ user.entryway }}", "{{ user.concentration }}"]'>
+                <div class="card">
+                    <div class="front">
+                        <img src="../static/images/{{ user.img }}" class="card-img-top">
+                        <div class="card-body">
+                            <h2 class="text-center">{{ user.name_first }} {{ user.name_last }}</h2>
+                        </div>
+                    </div>
+                    <div class="back text-white">
+                        <div class="card-body">
+                            <div class="card-title text-center">
+                                <h2>{{ user.name_first }} {{ user.name_last }}</h2>
+                            </div>
+                            <div class="card-text">
+                                <ul class="fa-ul">
+                                    <li><span class="fa-li"><i class="fas fa-calendar-alt"></i></span>{{ user.year }}
+                                    </li>
+                                    <li><span class="fa-li"><i class="fas fa-home"></i></span>{{ user.entryway }}</li>
+                                    <li><span class="fa-li"><i
+                                                class="fas fa-graduation-cap"></i></span>{{ user.concentration }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

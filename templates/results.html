@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Results
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+<link href="../static/results.css" rel="stylesheet">
+<script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/1.0.0/dist/progressbar.js"></script>
+<script src="../static/js/results.js"></script>
+{% endblock %}
+
+{% block main %}
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-3">
+                    <div id="percent_val" class="hide">{{ stats.percentage }}</div>
+                    <div id="container"></div>
+                </div>
+            </div>
+            <div class="row justify-content-center text-center text-white">
+                <div class="col-3 result-col">
+                    <div class="result-icon text-success"><i class="fa fa-3x fa-check"></i></div>
+                    <div id="correct_value" class="result-value">{{ stats.correct }}</div>
+                </div>
+                <div class="col-3 result-col">
+                    <div class="result-icon text-warning"><i class="fa fa-3x fa-trophy"></i></div>
+                    <div id="points_value" class="result-value"></div>
+                </div>
+                <div class="col-3 result-col">
+                    <div class="result-icon text-primary"><i class="fa fa-3x fa-times"></i></div>
+                    <div id="incorrect_value" class="result-value">{{ stats.incorrect }}</div>
+                </div>
+            </div>
+            <div class="row mt-3 justify-content-center">
+                <div class="col-3 text-center result-col">
+                    <button id="review" class="btn btn-light">Review Incorrect <i
+                            class="fa fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="row m-2">
+                {% for user in latest %}
+                <div class="col">
+                    <div class="card result-card" data-correct="{{ user.correct }}" data-name="{{ user.name_first }}"
+                        data-guess="{{ user.guess }}">
+                        <div class="card-img-top">
+                            <img src="../static/images/{{ user.img }}" class="img-thumbnail">
+                        </div>
+                        <div class="card-body">
+                            <div class="card-text guessed-name text-primary hide">
+                                NAME
+                                <hr>
+                            </div>
+                            <div class="card-text correct-name text-success">
+                                NAME
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col">
+                    <a href="/" class="btn btn-block btn-danger">Home</a>
+                </div>
+                <div class="col">
+                    <a href="/learn_select" class="btn btn-block btn-danger">Learn more faces</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

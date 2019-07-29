@@ -1,0 +1,70 @@
+:root {
+    --main-theme: #537fbe;
+    --main-theme-border: #3a70bd;
+}
+
+main.container-fluid {
+    text-align: left;
+}
+
+#main {
+    border-left: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.round-corners {
+    border-radius: 1rem;
+}
+
+figure {
+    border-color: white !important;
+}
+
+.grid {
+    overflow: visible !important;
+}
+
+.overflow-x-hidden {
+    overflow-x: hidden;
+}
+
+.card {
+    box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    border: none;
+    transition: 0.3s;
+}
+
+.card .back {
+    position: absolute;
+    top: 200%;
+    height: 100%;
+    width: 100%;
+    background: white;
+    transition: 0.3s;
+}
+
+.card:hover .back {
+    top: 0;
+}
+
+.btn-radio:active,
+.btn-radio.active,
+.btn-radio:focus {
+    box-shadow: none!important;
+}
+
+.filter-title .filter-title-btn {
+    display: inline;
+    text-align: right;
+}
+
+.btn-collapse {
+    background: none;
+    border: none;
+}
+
+.collapse-row {
+    cursor: pointer;
+}

@@ -1,0 +1,26 @@
+main {
+    background: url("../static/images/results.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+.result-value {
+    font-size: 300%;
+}
+
+.hide {
+    display: none;
+}
+
+.result-card {
+    border-width: 5px;
+}
+
+.img-thumbnail {
+    border: none;
+}
+
+.guessed-name {
+    text-decoration: line-through;
+}

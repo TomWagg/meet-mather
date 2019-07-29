@@ -1,0 +1,92 @@
+{% extends "centre_form.html" %}
+
+{% block pagetitle %}
+Learn
+{% endblock %}
+
+{% block more_head %}
+<link rel="stylesheet" href="../static/learn_select.css">
+<script src="../static/js/learn_select.js"></script>
+{% endblock %}
+
+{% block header %}
+<h3>Learn names</h3>
+{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="entryway" class="control-label">Entryway</label>
+            <div>
+                <select id="entryway" class="form-control w-100" name="entryway">
+                    <option value="%">All entryways</option>
+                    {% for entryway in options["entryway"] %}
+                    <option value="{{entryway}}">{{entryway}}</a>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label for="group" class="control-label">Year</label>
+            <div>
+                <select id="year" class="form-control w-100" name="year">
+                    <option value="%">All years</option>
+                    <option disabled>_________</option>
+                    {% for year in options["year"] %}
+                    <option value="{{year}}">{{year}}</a>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="rounds">Rounds</label>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <div id="rounds_group" class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                            <label class="btn btn-outline-danger btn-rounds active">
+                                <input type="radio" name="options" autocomplete="off" checked>5
+                            </label>
+                            <label class="btn btn-outline-danger btn-rounds">
+                                <input type="radio" name="options" autocomplete="off">10
+                            </label>
+                            <label class="btn btn-outline-danger btn-rounds">
+                                <input type="radio" name="options" autocomplete="off">25
+                            </label>
+                            <label class="btn btn-outline-danger btn-rounds">
+                                <input type="radio" name="options" autocomplete="off">Custom
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <input type="number" id="custom_round" class="form-control border-danger w-100" style="display:none;" placeholder="Custom Value"  min=1 max=25>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <button type="button" id="adapt" class="btn btn-outline-danger btn-toggle mr-2"><i class="fa fa-fw fa-times"></i></button>
+            <label for="adapt">Show only students that you guessed
+                incorrectly</label>
+        </div>
+    </div>
+</div>
+<button type="button" id="start" class="btn btn-danger btn-block">Start game</button>
+<form id="submission" class="hide" action="/learn">
+    <input type="text" id="sub_entryway" name="entryway">
+    <input type="text" id="sub_year" name="year">
+    <input type="text" id="sub_rounds" name="rounds">
+    <input type="text" id="sub_adapt" name="adapt">
+    <button type="submit" id="sub_done">Click me</button>
+</form>
+{% endblock %}

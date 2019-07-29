@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Summary
+{% endblock %}
+
+{% block main %}
+<h2>You got {{score}}% right.</h2>
+
+<br />
+{% if not faces[0] %}
+<p class="highlight">Nothing to review. Congrats on your perfect score!</p>
+{% endif %}
+
+{% if faces[0] %}
+<h5>Review the following names to further improve your score.</h5>
+
+<table class="table">
+<tbody>
+{% for face in faces %}
+    <tr style="border-bottom:1px">
+        <td width="300"><img src="static/images/{{face['img']}}" width="300"></td>
+        <td>
+            <p id="name_first">
+                <strong>First name:</strong><br />
+                <span class="highlight">{{face['name_first']}}</span>
+            </p>
+            <p id="name_last">
+                <strong>Last name:</strong><br />
+                {{face['name_last']}}
+            </p>
+            <p id="hometown">
+                <strong>Hometown:</strong><br />
+                {{face['hometown']}}
+            </p>
+            <p id="year">
+                <strong>Year:</strong><br />
+                {{face['year']}}
+            </p>
+            <p id="concentration">
+                <strong>Concentration:</strong><br />
+                {{face['concentration']}}
+            </p>
+            <p id="fun_fact">
+                <strong>Fun Fact:</strong><br />
+                {{face['funfact']}}
+            </p>
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+{% endif %}
+
+
+
+{% endblock %}

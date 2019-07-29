@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- documentation at http://getbootstrap.com/docs/4.1/, alternative themes at https://bootswatch.com/ -->
+        <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/journal/bootstrap.min.css" rel="stylesheet" integrity="sha384-ciphE0NCAlD2/N6NUApXAN2dAs/vcSAOTzyE202jJx3oS8n4tAQezRgnlHqcJ59C" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu" />
+        <link href="/static/mather_crest.jpeg" rel="icon">
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <link href="/static/styles.css" rel="stylesheet">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/f2065d20ad.js"></script>
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+        {% block extra_head %}{% endblock %}
+
+        <title>Meet Mather | {% block title %}{% endblock %}</title>
+        
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-danger">
+            <a class="navbar-brand" href="/"><span class="red"><img src="../static/images/mather_crest_nobg.png" height="35px"> Meet Mather</a>
+            <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                {% if session.user_id %}
+                    <ul class="navbar-nav mr-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/learn_select">Learn</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/review">Review</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+
+        {% with password = get_flashed_messages(category_filter=["password"]) %}
+            {% if password %}
+                <div class="alert alert-info border text-center">
+                    <ul class="flashes">
+                        {%- for msg in password %}
+                            <p>{{ msg }}</p>
+                        {% endfor -%}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% with errors = get_flashed_messages(category_filter=["false"]) %}
+            {% if errors %}
+                <div class="alert alert-danger border text-center">
+                    <ul class="flashes">
+                        {%- for msg in errors %}
+                            <p>{{ msg }}</p>
+                        {% endfor -%}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% with success = get_flashed_messages(category_filter=["true"]) %}
+            {% if success %}
+                <div class="alert alert-success border text-center">
+                    <ul class="flashes">
+                        {%- for msg in success %}
+                            <p>{{ msg }}</p>
+                        {% endfor -%}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <main class="container-fluid">
+            {% block main %}{% endblock %}
+        </main>
+
+    </body>
+
+</html>

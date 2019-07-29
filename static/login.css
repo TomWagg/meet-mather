@@ -1,0 +1,20 @@
+main {
+    background-image: url('../static/images/friends.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+#login_box {
+    text-align: center;
+    height: calc(100% - 25px);
+    margin-top: 25px;
+}
+
+h3 {
+    margin: 0;
+}
+
+.card-header, .card-footer {
+    border: none;
+}
