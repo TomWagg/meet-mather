@@ -5,147 +5,177 @@ Profile
 {% endblock %}
 
 {% block extra_head %}
+<link href="../static/css/styles.css" rel="stylesheet">
+<link href="../static/css/search.css" rel="stylesheet">
 <link href="../static/css/profile.css" rel="stylesheet">
-<style>
-    label {
-        font-size: 80%;
-    }
-
-    .file-input::-webkit-file-upload-button {
-        visibility: hidden;
-    }
-
-    .file-input {
-        position: absolute;
-        top: 0;
-        opacity: 0;
-        z-index: 10;
-    }
-</style>
+<script src="../static/js/profile.js"></script>
 {% endblock %}
 
 {% block main %}
-<div class="row">
-    <div class="col-4 m-4 text-left">
-        <form action="/profile" method="post" enctype="multipart/form-data">
-            <h5>Name</h5>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col">
-                        <label for="name_first" class="control-label d-block mb-0">First name</label>
-                        <input type="text" class="form-control" name="name_first" value="{{profile["name_first"]}}">
-                    </div>
-                    <div class="col">
-                        <label for="name_last" class="control-label d-block mb-0">Last name</label>
-                        <input type="text" class="form-control" name="name_last" value="{{profile["name_last"]}}">
-                    </div>
+<div class="row pattern">
+    <div class="col preview">
+        <div class="card w-50 sticky-bottom">
+            <div class="front">
+                <img src="../static/images/{{ profile.img }}" class="card-img-top profile-img">
+                <div class="card-body">
+                    <h2 class="text-center"><span class="profile-first-name"></span> <span
+                            class="profile-last-name"></span></h2>
                 </div>
             </div>
-            <h5>Hometown</h5>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col">
-                        <label for="name" class="control-label d-block mb-0">City</label>
-                        <input type="text" class="form-control" name="city" value="{{profile["city"]}}">
+            <div class="back text-white bg-primary">
+                <div class="card-body">
+                    <div class="card-title text-center">
+                        <h2><span class="profile-first-name"></span> <span class="profile-last-name"></span></h2>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <label for="name" class="control-label d-block mb-0">State</label>
-                        <input type="text" class="form-control" name="state" value="{{profile["state"]}}">
-                    </div>
-                    <div class="col">
-                        <label for="name" class="control-label d-block mb-0">Zipcode</label>
-                        <input type="text" class="form-control" name="zipcode" value="{{profile["zipcode"]}}">
+                    <div class="card-text">
+                        <ul class="fa-ul">
+                            <li><span class="fa-li"><i class="fas fa-calendar-alt"></i></span><span
+                                    class="profile-year">{{ profile.year }}</span>
+                            </li>
+                            <li><span class="fa-li"><i class="fas fa-home"></i></span><span
+                                    class="profile-entryway">{{ profile.entryway }}</span></li>
+                            <li><span class="fa-li"><i class="fas fa-graduation-cap"></i></span><span
+                                    class="profile-concentration">{{ profile.concentration }}</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <h5>Profile Picture</h5>
-            <div class="form-group">
-                <div class="img-holder">
-                    <img src="static/images/{{profile['img']}}" width="100%">
-                    <input type="file" name="img" class="file-input">
-                </div>
-            </div>
-            <h5>Harvard Info</h5>
-            <div class="form-group">
-                <label for="name" class="control-label">Year</label>
-                <div>
-                    <input type="text" size="40" class="form-control" name="year" value="{{profile["year"]}}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="name" class="control-label">Concentration</label>
-                <select class="form-control" name="concentration">
-                    <option value='African and African American Studies'>African and African American Studies</option>
-                    <option value='Anthropology'>Anthropology</option>
-                    <option value='Applied Mathematics'>Applied Mathematics</option>
-                    <option value='Astrophysics'>Astrophysics</option>
-                    <option value='Biomedical Engineering'>Biomedical Engineering</option>
-                    <option value='Chemical and Physical Biology'>Chemical and Physical Biology</option>
-                    <option value='Chemistry'>Chemistry</option>
-                    <option value='Chemistry and Physics'>Chemistry and Physics</option>
-                    <option value='Classics'>Classics</option>
-                    <option value='Comparative Literature'>Comparative Literature</option>
-                    <option value='Computer Science'>Computer Science</option>
-                    <option value='Earth and Planetary Sciences'>Earth and Planetary Sciences</option>
-                    <option value='East Asian Studies'>East Asian Studies</option>
-                    <option value='Economics'>Economics</option>
-                    <option value='Electrical Engineering'>Electrical Engineering</option>
-                    <option value='Engineering Sciences'>Engineering Sciences</option>
-                    <option value='English'>English</option>
-                    <option value='Environmental Science and Engineering'>Environmental Science and Engineering
-                    </option>
-                    <option value='Environmental Science and Public Policy'>Environmental Science and Public Policy
-                    </option>
-                    <option value='Folklore and Mythology'>Folklore and Mythology</option>
-                    <option value='Germanic Languages and Literatures'>Germanic Languages and Literatures</option>
-                    <option value='Government'>Government</option>
-                    <option value='History'>History</option>
-                    <option value='History and Literature'>History and Literature</option>
-                    <option value='History and Science'>History and Science</option>
-                    <option value='Human Developmental and Regenerative Biology'>Human Developmental and Regenerative
-                        Biology</option>
-                    <option value='Human Evolutionary Biology'>Human Evolutionary Biology</option>
-                    <option value='Integrative Biology'>Integrative Biology</option>
-                    <option value='Linguistics'>Linguistics</option>
-                    <option value='Mathematics'>Mathematics</option>
-                    <option value='Mechanical Engineering'>Mechanical Engineering</option>
-                    <option value='Molecular and Cellular Biology'>Molecular and Cellular Biology</option>
-                    <option value='Music'>Music</option>
-                    <option value='Near Eastern Languages and Civilizations'>Near Eastern Languages and Civilizations
-                    </option>
-                    <option value='Neuroscience'>Neuroscience</option>
-                    <option value='Philosophy'>Philosophy</option>
-                    <option value='Physics'>Physics</option>
-                    <option value='Psychology'>Psychology</option>
-                    <option value='Religion, Comparative Study of'>Religion, Comparative Study of</option>
-                    <option value='Romance Languages and Literatures'>Romance Languages and Literatures</option>
-                    <option value='Slavic Languages and Literatures'>Slavic Languages and Literatures</option>
-                    <option value='Social Studies'>Social Studies</option>
-                    <option value='Sociology'>Sociology</option>
-                    <option value='South Asian Studies'>South Asian Studies</option>
-                    <option value='Special Concentrations'>Special Concentrations</option>
-                    <option value='Statistics'>Statistics</option>
-                    <option value='Theater, Dance, and Media'>Theater, Dance, and Media</option>
-                    <option value='Visual and Environmental Studies'>Visual and Environmental Studies</option>
-                    <option value='Women, Gender, and Sexuality, Studies of'>Women, Gender, and Sexuality, Studies of
-                    </option>
-                </select>
-            </div>
-            <h5>Mather Info</h5>
-            <div class="form-group">
-                <label for="name" class="control-label">Fun Fact</label>
-                <div>
-                    <textarea rows="3" cols="40" class="form-control" name="funfact">{{profile["funfact"]}}</textarea>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-danger">Submit changes</button>
-        </form>
+        </div>
     </div>
-    <div class="col"
-        style="background: url('../static/images/flower.jpg'); background-size: cover; background-attachment: fixed;">
+    <div class="col-6 p-4 text-left">
+        <div class="card form-card">
+            <div class="card-body">
+                <form action="/profile" method="post" enctype="multipart/form-data">
+                    <h5>Name</h5>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label for="name_first" class="control-label d-block mb-0">First name</label>
+                                <input type="text" class="form-control preview-link" name="name_first"
+                                    value="{{profile["name_first"]}}">
+                            </div>
+                            <div class="col">
+                                <label for="name_last" class="control-label d-block mb-0">Last name</label>
+                                <input type="text" class="form-control preview-link" name="name_last"
+                                    value="{{profile["name_last"]}}">
+                            </div>
+                        </div>
+                    </div>
+                    <h5>Hometown</h5>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label for="name" class="control-label d-block mb-0">City</label>
+                                <input type="text" class="form-control preview-link" name="city"
+                                    value="{{profile["city"]}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="name" class="control-label d-block mb-0">State</label>
+                                <input type="text" class="form-control preview-link" name="state"
+                                    value="{{profile["state"]}}">
+                            </div>
+                            <div class="col">
+                                <label for="name" class="control-label d-block mb-0">Zipcode</label>
+                                <input type="text" class="form-control preview-link" name="zipcode"
+                                    value="{{profile["zipcode"]}}">
+                            </div>
+                        </div>
+                    </div>
+                    <h5>Profile Picture</h5>
+                    <div class="form-group">
+                        <div class="img-holder">
+                            <input type="file" name="img" class="file-input">
+                        </div>
+                    </div>
+                    <h5>Harvard Info</h5>
+                    <div class="form-group">
+                        <label for="name" class="control-label">Year</label>
+                        <div>
+                            <input type="text" size="40" class="form-control preview-link" name="year"
+                                value="{{profile["year"]}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label">Concentration</label>
+                        <input id="prev_conc" class="hide" value="{{ profile.concentration }}">
+                        <select class="form-control preview-link" name="concentration">
+                            <option value='African and African American Studies'>African and African American Studies
+                            </option>
+                            <option value='Anthropology'>Anthropology</option>
+                            <option value='Applied Mathematics'>Applied Mathematics</option>
+                            <option value='Astrophysics'>Astrophysics</option>
+                            <option value='Biomedical Engineering'>Biomedical Engineering</option>
+                            <option value='Chemical and Physical Biology'>Chemical and Physical Biology</option>
+                            <option value='Chemistry'>Chemistry</option>
+                            <option value='Chemistry and Physics'>Chemistry and Physics</option>
+                            <option value='Classics'>Classics</option>
+                            <option value='Comparative Literature'>Comparative Literature</option>
+                            <option value='Computer Science'>Computer Science</option>
+                            <option value='Earth and Planetary Sciences'>Earth and Planetary Sciences</option>
+                            <option value='East Asian Studies'>East Asian Studies</option>
+                            <option value='Economics'>Economics</option>
+                            <option value='Electrical Engineering'>Electrical Engineering</option>
+                            <option value='Engineering Sciences'>Engineering Sciences</option>
+                            <option value='English'>English</option>
+                            <option value='Environmental Science and Engineering'>Environmental Science and Engineering
+                            </option>
+                            <option value='Environmental Science and Public Policy'>Environmental Science and Public
+                                Policy
+                            </option>
+                            <option value='Folklore and Mythology'>Folklore and Mythology</option>
+                            <option value='Germanic Languages and Literatures'>Germanic Languages and Literatures
+                            </option>
+                            <option value='Government'>Government</option>
+                            <option value='History'>History</option>
+                            <option value='History and Literature'>History and Literature</option>
+                            <option value='History and Science'>History and Science</option>
+                            <option value='Human Developmental and Regenerative Biology'>Human Developmental and
+                                Regenerative
+                                Biology</option>
+                            <option value='Human Evolutionary Biology'>Human Evolutionary Biology</option>
+                            <option value='Integrative Biology'>Integrative Biology</option>
+                            <option value='Linguistics'>Linguistics</option>
+                            <option value='Mathematics'>Mathematics</option>
+                            <option value='Mechanical Engineering'>Mechanical Engineering</option>
+                            <option value='Molecular and Cellular Biology'>Molecular and Cellular Biology</option>
+                            <option value='Music'>Music</option>
+                            <option value='Near Eastern Languages and Civilizations'>Near Eastern Languages and
+                                Civilizations
+                            </option>
+                            <option value='Neuroscience'>Neuroscience</option>
+                            <option value='Philosophy'>Philosophy</option>
+                            <option value='Physics'>Physics</option>
+                            <option value='Psychology'>Psychology</option>
+                            <option value='Religion, Comparative Study of'>Religion, Comparative Study of</option>
+                            <option value='Romance Languages and Literatures'>Romance Languages and Literatures</option>
+                            <option value='Slavic Languages and Literatures'>Slavic Languages and Literatures</option>
+                            <option value='Social Studies'>Social Studies</option>
+                            <option value='Sociology'>Sociology</option>
+                            <option value='South Asian Studies'>South Asian Studies</option>
+                            <option value='Special Concentrations'>Special Concentrations</option>
+                            <option value='Statistics'>Statistics</option>
+                            <option value='Theater, Dance, and Media'>Theater, Dance, and Media</option>
+                            <option value='Visual and Environmental Studies'>Visual and Environmental Studies</option>
+                            <option value='Women, Gender, and Sexuality, Studies of'>Women, Gender, and Sexuality,
+                                Studies of
+                            </option>
+                        </select>
+                    </div>
+                    <h5>Mather Info</h5>
+                    <div class="form-group">
+                        <label for="name" class="control-label">Fun Fact</label>
+                        <div>
+                            <textarea rows="3" cols="40" class="form-control preview-link"
+                                name="funfact">{{profile["funfact"]}}</textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Submit changes</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -17,6 +17,10 @@ nav .navbar-brand
     font-size: xx-large;
 }
 
+.hide {
+    display: none;
+}
+
 #top
 {
    width: 100%;

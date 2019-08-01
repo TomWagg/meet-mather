@@ -1,5 +1,5 @@
 main {
-    background: url("../static/images/autumn.jpg");
+    background: url("../../static/images/autumn.jpg");
     background-size: cover;
     background-attachment: fixed;
 }
