@@ -150,7 +150,18 @@ def review():
             AND users.id=guesses.face_id; """,
         u = session["user_id"]
     )
-    return render_template("review.html", latest=latest_guesses)
+    stats = {
+        "correct": 0,
+        "incorrect": 0,
+        "points": 0,
+    }
+    for guess in latest_guesses:
+        if guess["correct"] == 1:
+            stats["correct"] += 1;
+        else:
+            stats["incorrect"] += 1;
+    stats["points"] = stats["correct"] * 3 + stats["incorrect"]
+    return render_template("review.html", latest=latest_guesses, stats=stats)
 
 
 @app.route("/profile", methods=["GET", "POST"])
@@ -342,9 +353,7 @@ def send_email():
 
 @app.route("/logout")
 def logout():
-    """Log user out"""
-    session.clear()
-    return redirect("/")
+    return redirect("/login")
 
 def errorhandler(e):
     """Handle error"""
