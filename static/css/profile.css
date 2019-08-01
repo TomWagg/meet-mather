@@ -17,7 +17,7 @@ label {
     background: url('../../static/images/courtyard_leaves.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: contain;
+    background-size: cover;
 }
 
 .form-card {

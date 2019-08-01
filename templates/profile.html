@@ -65,41 +65,48 @@ Profile
                     <h5>Hometown</h5>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col">
-                                <label for="name" class="control-label d-block mb-0">City</label>
+                            <div class="col-8">
+                                <label for="city" class="control-label d-block mb-0">City</label>
                                 <input type="text" class="form-control preview-link" name="city"
                                     value="{{profile["city"]}}">
+                            </div>
+                            <div class="col">
+                                <label for="state" class="control-label d-block mb-0">State (if USA)</label>
+                                <input type="text" class="form-control preview-link" name="state"
+                                    value="{{profile["state"]}}">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="name" class="control-label d-block mb-0">State</label>
-                                <input type="text" class="form-control preview-link" name="state"
-                                    value="{{profile["state"]}}">
-                            </div>
-                            <div class="col">
-                                <label for="name" class="control-label d-block mb-0">Zipcode</label>
-                                <input type="text" class="form-control preview-link" name="zipcode"
-                                    value="{{profile["zipcode"]}}">
+                                <label for="country" class="control-label d-block mb-0">Country</label>
+                                <input type="text" class="form-control preview-link" name="country"
+                                    value="{{profile["country"]}}">
                             </div>
                         </div>
                     </div>
                     <h5>Profile Picture</h5>
                     <div class="form-group">
-                        <div class="img-holder">
-                            <input type="file" name="img" class="file-input">
-                        </div>
+                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                            data-target="#profile_pic_modal">
+                            Change profile picture
+                        </button>
                     </div>
                     <h5>Harvard Info</h5>
                     <div class="form-group">
-                        <label for="name" class="control-label">Year</label>
-                        <div>
-                            <input type="text" size="40" class="form-control preview-link" name="year"
-                                value="{{profile["year"]}}">
-                        </div>
+                        <label for="name" class="control-label d-block mb-0">Year</label>
+                        <select class="form-control preview-link" name="year">
+                            <option val="Sophomore">Sophomore</option>
+                            <option val="Junior">Junior</option>
+                            <option val="Senior">Senior</option>
+                            <option val="Resident Tutor">Resident Tutor</option>
+                            <option val="Resident Scholar">Resident Scholar</option>
+                            <option val="Non-resident Tutor">Non-Resident Tutor</option>
+                            <option val="House Staff">House Staff</option>
+                        </select>
+                        <input id="prev_year" class="hide" value="{{profile["year"]}}">
                     </div>
                     <div class="form-group">
-                        <label for="name" class="control-label">Concentration</label>
+                        <label for="name" class="control-label d-block mb-0">Concentration</label>
                         <input id="prev_conc" class="hide" value="{{ profile.concentration }}">
                         <select class="form-control preview-link" name="concentration">
                             <option value='African and African American Studies'>African and African American Studies
@@ -166,14 +173,52 @@ Profile
                     </div>
                     <h5>Mather Info</h5>
                     <div class="form-group">
-                        <label for="name" class="control-label">Fun Fact</label>
-                        <div>
-                            <textarea rows="3" cols="40" class="form-control preview-link"
-                                name="funfact">{{profile["funfact"]}}</textarea>
-                        </div>
+                        <select class="form-control" name="q1">
+                            <option val='If you could have any superpower, what would it be?'>If you could have any
+                                superpower, what would it be?</option>
+                            <option val='Describe your perfect day in three words'>Describe your perfect day in three
+                                words</option>
+                            <option val='Who is your celebrity look-alike?'>Who is your celebrity look-alike?</option>
+                            <option val='If you were famous, what would you be famous for?'>If you were famous, what
+                                would
+                                you be famous for?</option>
+                            <option val='I would like an unlimited supply of ...'>I would like an unlimited supply of
+                                ...</option>
+                            <option val='Which cartoon character would you choose to hang out with?'>Which cartoon
+                                character would you choose to hang out with?</option>
+                            <option val='What is your motto for life?'>What is your motto for life?</option>
+                            <option val='What new activity do you want to try?'>What new activity do you want to try?
+                            </option>
+                            <option val='What song title best describes your life?'>What song title best describes your
+                                life?</option>
+                            <option val='If you could live anywhere, where would you live?'>If you could live anywhere,
+                                where would you live?</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-danger">Submit changes</button>
+
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="profile_pic_modal" tabindex="-1" role="dialog" aria-labelledby="profile_pic_modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profile_pic_modalLabel">Change Profile Picture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Change details here
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

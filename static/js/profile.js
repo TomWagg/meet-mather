@@ -1,4 +1,5 @@
 $(function() {
+    document.querySelector("select[name='year']").value = document.getElementById("prev_year").value;
     document.querySelector("select[name='concentration']").value = document.getElementById("prev_conc").value;
     update_preview();
     $(".preview-link").on("keyup change", function() {
