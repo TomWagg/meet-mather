@@ -58,9 +58,10 @@ def search():
 @app.route("/results")
 def results():
     latest_guesses = db.execute(
-        """ SELECT img, name_first, correct FROM users, guesses 
-            WHERE guesses.user_id='128' AND bunch=(SELECT MAX(bunch) FROM guesses WHERE user_id='128')
-            AND users.id=guesses.face_id; """
+        """ SELECT users.img, users.name_first, guesses.correct, guesses.guess FROM users, guesses 
+            WHERE guesses.user_id=:u AND bunch=(SELECT MAX(bunch) FROM guesses WHERE user_id=:u)
+            AND users.id=guesses.face_id; """,
+        u = session["user_id"]
     )
     total = len(latest_guesses)
     correct = 0
@@ -144,12 +145,12 @@ def learn_select():
 @login_required
 def review():
     latest_guesses = db.execute(
-        """ SELECT id, img, name_first, name_last, hometown, year, concentration, funfact FROM users, guesses 
-            WHERE guesses.user_id=:id AND bunch=(SELECT MAX(bunch) FROM guesses WHERE user_id=:id)
-            AND users.id=guesses.face_id AND guesses.correct='0'; """,
-        id = session["user_id"]
+        """ SELECT users.img, users.name_first, guesses.correct, guesses.guess FROM users, guesses 
+            WHERE guesses.user_id=:u AND bunch=(SELECT MAX(bunch) FROM guesses WHERE user_id=:u)
+            AND users.id=guesses.face_id; """,
+        u = session["user_id"]
     )
-    return render_template("review.html", faces=latest_guesses)
+    return render_template("review.html", latest=latest_guesses)
 
 
 @app.route("/profile", methods=["GET", "POST"])
@@ -197,9 +198,8 @@ def profile():
         
         return render_template("profile.html", profile=profile_updated)
 
-    # If not reached by POST, display current user information
     else:
-        profile = db.execute("SELECT id, img, name_first, name_last, hometown, year, concentration, funfact FROM users WHERE id=:u",
+        profile = db.execute("SELECT id, img, name_first, name_last, hometown, year, concentration, funfact, entryway FROM users WHERE id=:u",
                              u=user)[0]
 
         return render_template("profile.html", profile=profile)

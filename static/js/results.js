@@ -1,23 +1,4 @@
 $(function() {
-    $('.carousel').carousel({
-        "interval": false,
-        "keyboard": false,
-    });
-    // $(".carousel").carousel(1);
-    document.getElementById("review").addEventListener("click", function() {
-        $(".carousel").carousel(1);
-    });
-    document.querySelectorAll(".result-card").forEach(function(el) {
-        console.log(el);
-        el.querySelector(".correct-name").innerText = el.getAttribute("data-name");
-        if (el.getAttribute("data-correct") == 1) {
-            el.classList.add("border-success");
-        } else {
-            el.classList.add("border-primary");
-            el.querySelector(".guessed-name").innerText = el.getAttribute("data-guess");
-            el.querySelector(".guessed-name").classList.remove("hide");
-        }
-    });
     document.getElementById("points_value").innerText = 3 * parseInt(document.getElementById("correct_value").innerText) + parseInt(document.getElementById("incorrect_value").innerText);
     const bar = new ProgressBar.Circle('#container', {
         color: '#aaa',

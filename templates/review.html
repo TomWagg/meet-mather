@@ -1,57 +1,46 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Review
+Review
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="../static/css/review.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Shuffle/5.2.2/shuffle.min.js"></script>
+<script src="../static/js/review.js"></script>
 {% endblock %}
 
 {% block main %}
-
-<br />
-{% if not faces[0] %}
-<p class="highlight">Nothing to review. You have either not played any rounds or you have a perfect score.</p>
-{% endif %}
-
-{% if faces[0] %}
-<h5 style="text-align:left">Review the following names. These are names you guessed incorrectly on your last try.</h5>
-
-<br />
-<table class="table">
-<tbody>
-{% for face in faces %}
-    <tr style="border-bottom:1px">
-        <td width="300"><img src="static/images/{{face['img']}}" width="300"></td>
-        <td>
-            <p id="name_first">
-                <strong>First name:</strong><br />
-                <span class="highlight">{{face['name_first']}}</span>
-            </p>
-            <p id="name_last">
-                <strong>Last name:</strong><br />
-                {{face['name_last']}}
-            </p>
-            <p id="hometown">
-                <strong>Hometown:</strong><br />
-                {{face['hometown']}}
-            </p>
-            <p id="year">
-                <strong>Year:</strong><br />
-                {{face['year']}}
-            </p>
-            <p id="concentration">
-                <strong>Concentration:</strong><br />
-                {{face['concentration']}}
-            </p>
-            <p id="fun_fact">
-                <strong>Fun Fact:</strong><br />
-                {{face['funfact']}}
-            </p>
-        </td>
-    </tr>
-{% endfor %}
-    </tbody>
-</table>
-
-{% endif %}
-
+<div class="row mx-2 mt-2 mb-0">
+    <div class="col">
+        <div class="announcement">
+            In your last round you got {{ stats.correct }} names correct and {{ stats.incorrect }} wrong, which means
+            you gained {{ stats.points }} points, well done! Hover over the faces below to review your answers.
+        </div>
+    </div>
+</div>
+<div class="row grid m-2">
+    {% for user in latest %}
+    <div class="col-3 mb-2 mt-2 picture-item">
+        <div class="card result-card" data-correct="{{ user.correct }}" data-name="{{ user.name_first }}"
+            data-guess="{{ user.guess }}">
+            <div class="card-img-top">
+                <img src="../static/images/{{ user.img }}">
+            </div>
+            <div class="row overlay h-100 align-items-center text-center m-auto">
+                <div class="col">
+                    <div class="card-text guessed-name text-primary hide">
+                        NAME
+                        <hr>
+                    </div>
+                    <div class="card-text correct-name text-success">
+                        NAME
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 {% endblock %}
