@@ -39,6 +39,21 @@ Profile
                             </li>
                         </ul>
                     </div>
+                    <div class="card-text qa mb-2">
+                        <div class="question profile-q1">{{ profile['q1']}}</div>
+                        <div class="answer profile-a1">{{ profile['a1']}}</div>
+                    </div>
+                    <div class="card-text qa mb-2">
+                        <div class="question profile-q2">{{ profile['q2']}}</div>
+                        <div class="answer profile-a2">{{ profile['a2']}}</div>
+                    </div>
+                    <div class="card-text qa mb-2">
+                        <div class="question profile-q3">{{ profile['q3']}}</div>
+                        <div class="answer profile-a3">{{ profile['a3']}}</div>
+                    </div>
+                    <div class="card-footer footer-points">
+                        <span class="profile-points">{{ profile['points'] }} Points</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,11 +100,16 @@ Profile
                         </div>
                     </div>
                     <h5>Profile Picture</h5>
+                    <p class="small mb-1">
+                        Please upload a photo of yourself for other to recognise. The photo should be portrait not landscape
+                        and a high quality image. Your fellow Matherites want to get to you know well so be sure that you're
+                        the only person in the photo and that you can clearly make out your face.
+                    </p>
                     <div class="form-group">
-                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                            data-target="#profile_pic_modal">
-                            Change profile picture
-                        </button>
+                        <div class="upload-btn-wrapper point">
+                            <button class="btn btn-danger pointer">Upload a file</button>
+                            <input type="file" name="img" class="pointer"/>
+                        </div>
                     </div>
                     <h5>Harvard Info</h5>
                     <div class="form-group">
@@ -103,7 +123,7 @@ Profile
                             <option val="Non-resident Tutor">Non-Resident Tutor</option>
                             <option val="House Staff">House Staff</option>
                         </select>
-                        <input id="prev_year" class="hide" value="{{profile["year"]}}">
+                        <input id="prev_year" class="hide" value="{{ profile['year'] }}">
                     </div>
                     <div class="form-group">
                         <label for="name" class="control-label d-block mb-0">Concentration</label>
@@ -172,31 +192,46 @@ Profile
                         </select>
                     </div>
                     <h5>Mather Info</h5>
-                    <div class="form-group">
-                        <select class="form-control" name="q1">
-                            <option val='If you could have any superpower, what would it be?'>If you could have any
-                                superpower, what would it be?</option>
-                            <option val='Describe your perfect day in three words'>Describe your perfect day in three
-                                words</option>
-                            <option val='Who is your celebrity look-alike?'>Who is your celebrity look-alike?</option>
-                            <option val='If you were famous, what would you be famous for?'>If you were famous, what
-                                would
-                                you be famous for?</option>
-                            <option val='I would like an unlimited supply of ...'>I would like an unlimited supply of
-                                ...</option>
-                            <option val='Which cartoon character would you choose to hang out with?'>Which cartoon
-                                character would you choose to hang out with?</option>
-                            <option val='What is your motto for life?'>What is your motto for life?</option>
-                            <option val='What new activity do you want to try?'>What new activity do you want to try?
-                            </option>
-                            <option val='What song title best describes your life?'>What song title best describes your
-                                life?</option>
-                            <option val='If you could live anywhere, where would you live?'>If you could live anywhere,
-                                where would you live?</option>
-                        </select>
+                    <p>Answer up to three questions of your choice!</p>
+                    <div class="qas">
+                        <div id="qa1" class="form-group mb-1">
+                            <label for="q1" class="control-label d-block mb-0">Question 1</label>
+                            <select class="form-control mb-1 preview-link question-list" name="q1">
+                                <option val='No Question'>No Question</option>
+                                <option selected val='If you could have any superpower, what would it be?'>If you could
+                                    have any
+                                    superpower, what would it be?</option>
+                                <option val='Describe your perfect day in three words'>Describe your perfect day in
+                                    three
+                                    words</option>
+                                <option val='Who is your celebrity look-alike?'>Who is your celebrity look-alike?
+                                </option>
+                                <option val='If you were famous, what would you be famous for?'>If you were famous, what
+                                    would
+                                    you be famous for?</option>
+                                <option val='I would like an unlimited supply of ...'>I would like an unlimited supply
+                                    of
+                                    ...</option>
+                                <option val='Which cartoon character would you choose to hang out with?'>Which cartoon
+                                    character would you choose to hang out with?</option>
+                                <option val='What is your motto for life?'>What is your motto for life?</option>
+                                <option val='What new activity do you want to try?'>What new activity do you want to
+                                    try?
+                                </option>
+                                <option val='What song title best describes your life?'>What song title best describes
+                                    your
+                                    life?</option>
+                                <option val='If you could live anywhere, where would you live?'>If you could live
+                                    anywhere,
+                                    where would you live?</option>
+                            </select>
+                            <input class="hide question-statement" name="q1-statement">
+                            <input class="form-control preview-link answer" name="a1">
+                            <label for="a1" class="control-label d-block mb-0 text-right">Characters Remaining: <span
+                                    class="chars">40</span></label>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-danger">Submit changes</button>
-
                 </form>
             </div>
         </div>

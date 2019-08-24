@@ -16,6 +16,10 @@ img {
     text-decoration: line-through;
 }
 
+.card {
+    border-width: 10px;
+}
+
 .card .overlay {
     opacity: 0;
     position: absolute;

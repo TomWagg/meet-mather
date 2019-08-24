@@ -2,17 +2,6 @@ label {
     font-size: 80%;
 }
 
-.file-input::-webkit-file-upload-button {
-    visibility: hidden;
-}
-
-.file-input {
-    position: absolute;
-    top: 0;
-    opacity: 0;
-    z-index: 10;
-}
-
 .pattern {
     background: url('../../static/images/courtyard_leaves.jpg');
     background-repeat: no-repeat;
@@ -21,9 +10,46 @@ label {
 }
 
 .form-card {
-    opacity: 0.9;
+    opacity: 0.95;
 }
 
 .preview .card {
     margin: 25%;
+}
+
+.qa {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 80%;
+}
+
+.qa .question {
+    font-style: italic;
+}
+
+.qa .answer {
+    text-align: right;
+}
+
+.footer-points {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
 }

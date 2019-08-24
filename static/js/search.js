@@ -6,6 +6,12 @@ $(function() {
         itemSelector: '.picture-item',
     });
 
+    document.querySelectorAll(".qa").forEach(function(el) {
+        if (el.querySelector(".question").innerText == "No Question") {
+            el.classList.add("hide");
+        }
+    });
+
     document.querySelectorAll(".card .back").forEach((element) => {
         const options = ["bg-primary", "bg-info", "bg-danger"];
         element.classList.add(options[randint(0, options.length - 1)]);

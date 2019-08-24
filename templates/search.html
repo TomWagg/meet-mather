@@ -128,6 +128,21 @@ Home
                                                 class="fas fa-graduation-cap"></i></span>{{ user.concentration }}</li>
                                 </ul>
                             </div>
+                            <div class="card-text qa mb-2">
+                                <div class="question">{{ user['q1']}}</div>
+                                <div class="answer">{{ user['a1']}}</div>
+                            </div>
+                            <div class="card-text qa mb-2">
+                                <div class="question">{{ user['q2']}}</div>
+                                <div class="answer">{{ user['a2']}}</div>
+                            </div>
+                            <div class="card-text qa mb-2">
+                                <div class="question">{{ user['q3']}}</div>
+                                <div class="answer">{{ user['a3']}}</div>
+                            </div>
+                            <div class="card-footer footer-points">
+                                <span class="profile-points">{{ user['points'] }} Points</span>
+                            </div>
                         </div>
                     </div>
                 </div>

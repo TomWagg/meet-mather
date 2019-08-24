@@ -68,3 +68,26 @@ figure {
 .collapse-row {
     cursor: pointer;
 }
+
+.qa {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 80%;
+}
+
+.qa .question {
+    font-style: italic;
+}
+
+.qa .answer {
+    text-align: right;
+}
+
+.footer-points {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}

@@ -48,7 +48,7 @@ def index():
 @app.route("/search")
 @login_required
 def search():
-    users = db.execute("SELECT img, name_first, name_last, year, concentration, entryway, points FROM users WHERE img IS NOT NULL AND img!=''")
+    users = db.execute("SELECT img, name_first, name_last, year, concentration, entryway, points, q1, q2, q3, a1, a2, a3 FROM users WHERE img IS NOT NULL AND img!=''")
     entryways = [ x["entryway"] for x in db.execute("SELECT DISTINCT(entryway) FROM users WHERE img IS NOT NULL AND img != '' AND entryway != ''")]
     years = [ x["year"] for x in db.execute("SELECT DISTINCT(year) FROM users WHERE img IS NOT NULL AND img != '' AND year != ''")]
     concs = [ x["concentration"] for x in db.execute("SELECT DISTINCT(concentration) FROM users WHERE img IS NOT NULL AND img != '' AND concentration != ''")]
@@ -168,52 +168,58 @@ def review():
 @login_required
 def profile():
     user = str(session["user_id"])
+
     if request.method == "POST":
+        # update everything except the image
+        db.execute(
+            "UPDATE users \
+            SET name_first=:n1, name_last=:n2, year=:y, concentration=:c, city=:city, state=:state, country=:country, \
+            q1=:q1, q2=:q2, q3=:q3, a1=:a1, a2=:a2, a3=:a3\
+            WHERE id=:u",
+            u=user,
+            n1=request.form.get("name_first"),
+            n2=request.form.get("name_last"),
+            y=request.form.get("year"),
+            c=request.form.get("concentration"),
+            city=request.form.get("city"),
+            state=request.form.get("state"),
+            country=request.form.get("country"),
+            q1=request.form.get("q1-statement"),
+            q2=request.form.get("q2-statement"),
+            q3=request.form.get("q3-statement"),
+            a1=request.form.get("a1"),
+            a2=request.form.get("a2"),
+            a3=request.form.get("a3")
+        )
+
         filename = None
-        print(request.files['img'])
-        print(request.files['img'].filename)
+        print(request.files)
         if 'img' in request.files:
             file = request.files['img']
             print(file)
             if file.filename != '':
-                print(file.filename)
                 if file and allowed_file(file.filename):
                     filename = secure_filename(user + "." + file.filename.rsplit('.', 1)[1].lower())
-                    print(filename)
                     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 else:
-                    return apology("Picture must be JPEG, GIF or PNG", 403)
+                    return apology("Profile picture must be an image file", 403)
 
         # If no new image is uploaded, keep old image
-        if filename is None:
-            filename = request.form.get("img_current")
+        if filename is not None:
+            db.execute(
+                "UPDATE users \
+                SET img=:i WHERE id=:u",
+                u=user,
+                i=filename
+            )
 
-        print(filename)
-
-        # Update the user entry using the input supplied by the form
-        profile = db.execute("UPDATE users \
-                              SET img=:i, name_first=:n1, name_last=:n2, hometown=:h, year=:y, concentration=:c, funfact=:f \
-                              WHERE id=:u",
-                              u=user,
-                              i=filename,
-                              n1=request.form.get("name_first"),
-                              n2=request.form.get("name_last"),
-                              h=request.form.get("hometown"),
-                              y=request.form.get("year"),
-                              c=request.form.get("concentration"),
-                              f=request.form.get("funfact"))
-
-        # Retrieve and display the newly updated user information
-        profile_updated = db.execute("SELECT id, img, name_first, name_last, hometown, year, concentration, funfact FROM users WHERE id=:u",
-                                     u=user)[0]
-        
-        return render_template("profile.html", profile=profile_updated)
+        return redirect("/profile")
 
     else:
-        profile = db.execute("SELECT id, img, name_first, name_last, hometown, year, concentration, funfact, entryway FROM users WHERE id=:u",
-                             u=user)[0]
-
-        return render_template("profile.html", profile=profile)
+        return render_template("profile.html", profile=db.execute(
+            "SELECT id, img, name_first, name_last, city, state, country, year, concentration, entryway, points, q1, q2, q3, a1, a2, a3 FROM users WHERE id=:u",
+            u=user)[0]
+        )
 
 
 @app.route("/login", methods=["GET", "POST"])
