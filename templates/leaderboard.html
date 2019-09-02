@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Leaderboard
+{% endblock %}
+main {
+background: url("../images/boston.JPG");
+background-attachment: fixed;
+background-size: cover;
+}
+{% block extra_head %}
+<link href="../static/css/styles.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+<link href="../static/css/leaderboard.css" rel="stylesheet">
+<script src="../static/js/leaderboard.js"></script>
+{% endblock %}
+
+{% block main %}
+<div class="row justify-content-center">
+    <div class="col-8 leaderboard">
+        <div class="row mt-3 justify-content-center">
+            <div class="col-3">
+                <h4>Rank</h4>
+            </div>
+            <div class="col-5">
+                <h4>Name</h4>
+            </div>
+            <div class="col-4">
+                <h4>Points</h4>
+            </div>
+        </div>
+        <hr>
+        {% for person in people %}
+        <div class="row person hide justify-content-center">
+            <div class="col-3 rank">
+                <span class="id">{{ person.id }}</span>
+                <span class="me">{{ me }}</span>
+            </div>
+            <div class="col-5">
+                {{ person.name_first }} {{ person.name_last }}
+            </div>
+            <div class="col-4 points">
+                {{ person.points }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- <div class="col statistics">
+        <div class="row">
+            <div class="col statistic">
+                <div class="row no-gutters">
+                    <div class="col-8 text-right stat-desc">
+                        Your current rank housewide is
+                    </div>
+                    <div class="col pl-1" style='font-size:300%'>
+                        12
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col statistic">
+                12
+            </div>
+            <div class="col statistic">
+                12
+            </div>
+        </div>
+        <div class="row">
+            <div class="col statistic">
+                12
+            </div>
+        </div>
+    </div> -->
+</div>
+
+{% endblock %}

@@ -41,7 +41,6 @@ Session(app)
 db = SQL("sqlite:///name.db")
 
 @app.route("/")
-@login_required
 def index():
     return render_template("welcome.html")
 
@@ -157,12 +156,17 @@ def review():
     }
     for guess in latest_guesses:
         if guess["correct"] == 1:
-            stats["correct"] += 1;
+            stats["correct"] += 1
         else:
-            stats["incorrect"] += 1;
+            stats["incorrect"] += 1
     stats["points"] = stats["correct"] * 3 + stats["incorrect"]
     return render_template("review.html", latest=latest_guesses, stats=stats)
 
+@app.route("/leaderboard", methods=["GET"])
+@login_required
+def leaderboard():
+    people = db.execute("SELECT id, name_first, name_last, points FROM users WHERE img is NOT NULL AND img is NOT '' ORDER BY points DESC")
+    return render_template("leaderboard.html", people=people, me=session["user_id"])
 
 @app.route("/profile", methods=["GET", "POST"])
 @login_required

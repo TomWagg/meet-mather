@@ -1,4 +1,10 @@
 $(function() {
+    // adjust 'center row'
+    const form = document.querySelector(".justify-content-center");
+    form.classList.remove("justify-content-center");
+    form.classList.add("justify-content-end");
+    document.querySelector(".col-7").className = "col-5";
+
     // create toggle buttons
     $(".btn-toggle").on("click", function() {
         this.classList.toggle("active");
