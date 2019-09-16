@@ -27,6 +27,9 @@ const statement_to_q = {
 const answer_limit = 40;
 
 $(function() {
+    // set active nav-link
+    document.querySelector(".nav-link[href='/profile']").classList.add("active");
+
     // copy and paste qa html for convenience
     const qa = document.querySelector("#qa1");
     for (let i = 2; i < 4; i++) {
@@ -37,7 +40,7 @@ $(function() {
         select.setAttribute("name", "q" + i.toString());
 
         const label = new_qa.querySelector("label");
-        label.innerText = "Question " + i.toString();
+        label.innerText = "Fun Question " + i.toString();
         label.setAttribute("for", select.getAttribute("name"));
 
         new_qa.querySelector("input[name='a1']").setAttribute("name", "a" + i.toString());
@@ -48,9 +51,22 @@ $(function() {
     // initialise
     document.querySelector("select[name='year']").value = document.getElementById("prev_year").value;
     document.querySelector("select[name='concentration']").value = document.getElementById("prev_conc").value;
+    document.querySelector("select[name='entryway']").value = document.getElementById("prev_entryway").value;
     for (let i = 1; i < 4; i++) {
         document.querySelector("select[name='q" + i.toString() + "']").value = statement_to_q[document.querySelector(".profile-q" + i.toString()).innerText];
         document.querySelector("input[name='a" + i.toString() + "']").value = document.querySelector(".profile-a" + i.toString()).innerText;
+    }
+
+    const class_string = document.getElementById("classes").value;
+    if (class_string !== "" && class_string !== "None") {
+        const classes = document.getElementById("classes").value.split("|");
+        for (let i = 0; i < classes.length; i++) {
+            const split = classes[i].split("~");
+            create_unit_option({
+                "name": split[0],
+                "code": split[1],
+            });
+        }
     }
 
     // make sure answers don't go over the limit
@@ -82,6 +98,25 @@ $(function() {
 
     $("input[type='file']").change(function() {
         readURL(this);
+    });
+
+    document.getElementById("unit_add").addEventListener("click", function() {
+        const name = document.getElementById("new_unit_name");
+        const code = document.getElementById("new_unit_code");
+        if (name.value !== "" && code.value !== "") {
+            create_unit_option({
+                "name": name.value.toUpperCase(),
+                "code": code.value.toUpperCase(),
+            });
+            name.value = "";
+            code.value = "";
+            update_class_string();
+        }
+    });
+    document.getElementById("new_unit_name").addEventListener("keydown", function(e) {
+        if (e.keyCode == 13) {
+            document.getElementById("unit_add").click();
+        }
     });
 });
 
@@ -130,4 +165,36 @@ function update_preview() {
         pq.innerHTML = q_to_statement[question];
         card.querySelector(".profile-a" + i.toString()).innerHTML = document.querySelector("input[name='a" + i.toString() + "']").value;
     }
+}
+
+/**
+ * Create a new option for the unit dropdown
+ * @param  {[type]} unit unit name and code
+ */
+function create_unit_option(unit) {
+    // copy the template and remove default options
+    const curr = document.getElementById("unit_template").cloneNode(true);
+    curr.className = "list-group-item border-0 unit p-0";
+    curr.id = "";
+
+    // add the name and button events
+    curr.querySelector(".unit-name").innerText = unit.name;
+    curr.querySelector(".unit-code").innerText = unit.code;
+    curr.querySelector(".unit-bin").addEventListener("click", function() {
+        curr.parentElement.removeChild(curr);
+        update_class_string();
+    });
+    document.getElementById("unit_holder").appendChild(curr);
+}
+
+/**
+ * Update the value of the classes after adding or deleting
+ */
+function update_class_string() {
+    let class_string = "";
+    document.querySelectorAll(".unit").forEach(function(el) {
+        console.log(el);
+        class_string += el.querySelector(".unit-name").innerText + "~" + el.querySelector(".unit-code").innerText + "|";
+    });
+    document.getElementById("classes").value = class_string.slice(0, class_string.length - 1);
 }

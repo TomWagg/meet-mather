@@ -1,4 +1,7 @@
 $(function() {
+    // set active nav-link
+    document.querySelector(".nav-link[href='/leaderboard']").classList.add("active");
+
     people = document.querySelectorAll(".person");
     let count = 0;
     let prev_points = -1;

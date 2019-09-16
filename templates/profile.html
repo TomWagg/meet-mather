@@ -26,6 +26,8 @@ Profile
                 <div class="card-body">
                     <div class="card-title text-center">
                         <h2><span class="profile-first-name"></span> <span class="profile-last-name"></span></h2>
+                        <a href="mailto:{{profile.email}}" class="profile-email text-white small">
+                            {{ profile.email }}</a>
                     </div>
                     <div class="card-text">
                         <ul class="fa-ul">
@@ -64,16 +66,23 @@ Profile
                 <form action="/profile" method="post" enctype="multipart/form-data">
                     <h5>Name</h5>
                     <div class="form-group">
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col">
-                                <label for="name_first" class="control-label d-block mb-0">First name</label>
+                                <label for="name_first" class="control-label d-block mb-0 required">First name</label>
                                 <input type="text" class="form-control preview-link" name="name_first"
-                                    value="{{profile["name_first"]}}">
+                                    value="{{profile['name_first']}}">
                             </div>
                             <div class="col">
                                 <label for="name_last" class="control-label d-block mb-0">Last name</label>
                                 <input type="text" class="form-control preview-link" name="name_last"
-                                    value="{{profile["name_last"]}}">
+                                    value="{{profile['name_last']}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="email" class="control-label d-block mb-0">E-mail</label>
+                                <input type="text" class="form-control preview-link" name="email"
+                                    value="{{profile['email']}}">
                             </div>
                         </div>
                     </div>
@@ -99,22 +108,28 @@ Profile
                             </div>
                         </div>
                     </div>
-                    <h5>Profile Picture</h5>
+                    <h5 class="required">Profile Picture</h5>
                     <p class="small mb-1">
-                        Please upload a photo of yourself for others to recognise. The photo should be portrait not landscape
-                        Please upload a photo of yourself for others to recognise. The photo should be portrait not landscape
-                        and a high quality image. Your fellow Matherites want to get to you know well so be sure that you're
-                        the only person in the photo and that you can clearly make out your face.
+                        Please upload a photo of yourself for others to recognise that meets the following guidelines
                     </p>
+                    <ul class="small">
+                        <li>The photo must be of you alone, <b>no group photos</b> please!</li>
+                        <li>Make sure your photo is <b>high quality</b>, such that we can make out your face</li>
+                        <li>
+                            Only use <b>portrait</b> photos and hover on the preview after uploading to ensure
+                            everything looks right
+                            (longer photos leave more space for content on the back)
+                        </li>
+                    </ul>
                     <div class="form-group">
                         <div class="upload-btn-wrapper point">
                             <button class="btn btn-danger pointer">Upload a file</button>
-                            <input type="file" name="img" class="pointer"/>
+                            <input type="file" name="img" class="pointer" />
                         </div>
                     </div>
                     <h5>Harvard Info</h5>
                     <div class="form-group">
-                        <label for="name" class="control-label d-block mb-0">Year</label>
+                        <label for="name" class="control-label d-block mb-0 required">Year</label>
                         <select class="form-control preview-link" name="year">
                             <option val="Sophomore">Sophomore</option>
                             <option val="Junior">Junior</option>
@@ -127,7 +142,7 @@ Profile
                         <input id="prev_year" class="hide" value="{{ profile['year'] }}">
                     </div>
                     <div class="form-group">
-                        <label for="name" class="control-label d-block mb-0">Concentration</label>
+                        <label for="name" class="control-label d-block mb-0 required">Concentration</label>
                         <input id="prev_conc" class="hide" value="{{ profile.concentration }}">
                         <select class="form-control preview-link" name="concentration">
                             <option value='African and African American Studies'>African and African American Studies
@@ -192,11 +207,71 @@ Profile
                             </option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <h6>Classes (for study groups!)</h6>
+                        <input id="classes" name="classes" class="hide" value="{{ profile['classes'] }}">
+                        <p class="small mb-1">
+                            Add any classes for which you would like to find a study group. Your classes will only be
+                            visible to others taking the same class. You can browse to the
+                            <a href="/connect" class="text-danger">Connect</a> page in order to find other Matherites
+                            taking the same classes!
+                        </p>
+                        <p class="small mb-1">
+                            Please use the same subject and course codes as on <a
+                                href="https://portal.my.harvard.edu/psp/hrvihprd/EMPLOYEE/EMPL/h/?tab=HU_CLASS_SEARCH"
+                                target="_blank">my.harvard</a>
+                        </p>
+                        <ul class="list-group list-group-flush mb-2" id="unit_holder"></ul>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="input-group">
+                                    <input id="new_unit_name" class="form-control" placeholder="Subject (E.g. CS)" />
+                                    <input id="new_unit_code" class="form-control"
+                                        placeholder="Course Code (E.g. 50)" />
+                                    <div class="input-group-append">
+                                        <button type="button" id="unit_add" class="btn btn-outline-danger"><i
+                                                class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <li id="unit_template" class="hide">
+                            <div class="row no-gutters">
+                                <div class="col m-auto">
+                                    <i class="unit-name">UNIT NAME</i>
+                                    <i class="unit-code">UNIT CODE</i>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <div class="btn-group">
+                                        <button class="btn btn-outline-danger unit-bin"><i
+                                                class="far fa-trash-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
                     <h5>Mather Info</h5>
-                    <p>Answer up to three questions of your choice!</p>
+                    <div class="form-group">
+                        <label for="entryway" class="control-label d-block mb-0 required">Entryway</label>
+                        <select class="form-control preview-link" name="entryway">
+                            <option val='Anh'>Anh</option>
+                            <option val='Nina / Soltan'>Nina / Soltan</option>
+                            <option val='Harshil / Jack'>Harshil / Jack</option>
+                            <option val='Alex / Antonio'>Alex / Antonio</option>
+                            <option val='David Perez'>David Perez</option>
+                            <option val='Addie'>Addie</option>
+                            <option val='Renajd / Annie'>Renajd / Annie</option>
+                            <option val='Chloe / Morgan'>Chloe / Morgan</option>
+                            <option val='David / Kalila'>David / Kalila</option>
+                            <option val='Naseem / Ryan'>Naseem / Ryan</option>
+                            <option val='Kaitlin / Leah'>Kaitlin / Leah</option>
+                            <option val='Other'>Other</option>
+                        </select>
+                        <input id="prev_entryway" class="hide" value="{{ profile['entryway'] }}">
+                    </div>
                     <div class="qas">
                         <div id="qa1" class="form-group mb-1">
-                            <label for="q1" class="control-label d-block mb-0">Question 1</label>
+                            <label for="q1" class="control-label d-block mb-0">Fun Question 1</label>
                             <select class="form-control mb-1 preview-link question-list" name="q1">
                                 <option val='No Question'>No Question</option>
                                 <option selected val='If you could have any superpower, what would it be?'>If you could

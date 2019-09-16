@@ -1,0 +1,10 @@
+.match-container {
+    background-image: url("../../static/images/dhall_tower_crop.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100%;
+}
+
+main {
+    background-color: #be3038;
+}

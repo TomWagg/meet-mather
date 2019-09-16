@@ -1,4 +1,7 @@
 $(function() {
+    // set active nav-link
+    document.querySelector(".nav-link[href='/search']").classList.add("active");
+
     const Shuffle = window.Shuffle;
     const element = document.querySelector('.grid');
 
@@ -64,7 +67,9 @@ $(function() {
         console.log(choices, choice_string);
         document.getElementById("surprise_message").innerText = choice_string;
         document.getElementById("surprise_toast").classList.add("show");
-        animateCSS("#surprise_toast", "bounce");
+        animateCSS("#surprise_toast", "slideInLeft", function() {
+            animateCSS("#surprise_toast", "bounce");
+        });
         update_shuffle(shuffleInstance);
     });
 });

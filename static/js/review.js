@@ -1,4 +1,7 @@
 $(function() {
+    // set active nav-link
+    document.querySelector(".nav-link[href='/review']").classList.add("active");
+
     const Shuffle = window.Shuffle;
     const element = document.querySelector('.grid');
 

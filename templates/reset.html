@@ -1,17 +1,19 @@
-{% extends "layout.html" %}
+{% extends "centre_form.html" %}
 
 {% block title %}
-    Register
+    Reset
 {% endblock %}
 
-{% block main %}
+{% block header %}
+<h3>Reset Password</h3>
+{% endblock %}
 
+{% block body %}
     <form action="/send_email" method="post">
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Enter your Harvard email here" type="text">
         </div>
-        <button class="btn btn-primary" type="submit">Reset</button>
+        <button class="btn btn-danger" type="submit">Reset</button>
     </form>
     {{id}}
-
 {% endblock %}

@@ -1,9 +1,6 @@
 $(function() {
-    // adjust 'center row'
-    const form = document.querySelector(".justify-content-center");
-    form.classList.remove("justify-content-center");
-    form.classList.add("justify-content-end");
-    document.querySelector(".col-7").className = "col-5";
+    // set active nav-link
+    document.querySelector(".nav-link[href='/learn_select']").classList.add("active");
 
     // create toggle buttons
     $(".btn-toggle").on("click", function() {

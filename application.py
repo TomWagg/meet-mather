@@ -23,6 +23,9 @@ app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=5000)
+
 # Ensure responses aren't cached
 @app.after_request
 def after_request(response):
@@ -47,35 +50,38 @@ def index():
 @app.route("/search")
 @login_required
 def search():
-    users = db.execute("SELECT img, name_first, name_last, year, concentration, entryway, points, q1, q2, q3, a1, a2, a3 FROM users WHERE img IS NOT NULL AND img!=''")
+    if not registered():
+        return apology("Please fill in all required profile fields")
+    users = db.execute("SELECT img, name_first, name_last, year, concentration, entryway, points, q1, q2, q3, a1, a2, a3, username AS 'email' FROM users WHERE img IS NOT NULL AND img!=''")
     entryways = [ x["entryway"] for x in db.execute("SELECT DISTINCT(entryway) FROM users WHERE img IS NOT NULL AND img != '' AND entryway != ''")]
     years = [ x["year"] for x in db.execute("SELECT DISTINCT(year) FROM users WHERE img IS NOT NULL AND img != '' AND year != ''")]
     concs = [ x["concentration"] for x in db.execute("SELECT DISTINCT(concentration) FROM users WHERE img IS NOT NULL AND img != '' AND concentration != ''")]
     return render_template("search.html", users=users, entryways=entryways, years=years, concentrations=concs)
 
-# TODO: For testing, remove after
-@app.route("/results")
-def results():
-    latest_guesses = db.execute(
-        """ SELECT users.img, users.name_first, guesses.correct, guesses.guess FROM users, guesses 
-            WHERE guesses.user_id=:u AND bunch=(SELECT MAX(bunch) FROM guesses WHERE user_id=:u)
-            AND users.id=guesses.face_id; """,
-        u = session["user_id"]
-    )
-    total = len(latest_guesses)
-    correct = 0
-    for i in range(total):
-        correct += latest_guesses[i]["correct"]
-    stats = {
-        "correct": correct,
-        "incorrect": total - correct,
-        "percentage": round(correct / total, 2)
-    }
-    return render_template("results.html", latest=latest_guesses, stats=stats)
+@app.route("/connect")
+@login_required
+def connect():
+    if not registered():
+        return apology("Please fill in all required profile fields")
+    me = db.execute("SELECT classes FROM users WHERE id=:id", id=session["user_id"])[0]
+    if me["classes"] == "" or me["classes"] == None:
+        return render_template("connect.html", matches=[])
+        
+    classes = me["classes"].split("|")
+    print(classes)
+    # TODO: Fix vulnerability
+    matches = [{
+            "class": "".join(cl.split("~")),
+            "users": db.execute("SELECT username AS 'email', name_first, name_last FROM users WHERE classes LIKE '%" + str(cl) +"%' AND NOT id=:id", id=session["user_id"])
+        } for cl in classes]
+    print(matches)
+    return render_template("connect.html", matches=matches)
 
 @app.route("/learn", methods=["GET", "POST"])
 @login_required
 def learn():
+    if not registered():
+        return apology("Please fill in all required profile fields")
     if request.method == "GET":
         year = request.args.get("year")
         entryway = request.args.get("entryway")
@@ -135,6 +141,8 @@ def learn():
 @app.route("/learn_select", methods=["GET"])
 @login_required
 def learn_select():
+    if not registered():
+        return apology("Please fill in all required profile fields")
     options = {}
     options["entryway"] = [ x["entryway"] for x in db.execute("SELECT entryway FROM users WHERE img IS NOT NULL AND img != '' AND entryway != '' GROUP BY entryway")]
     options["year"] = [ x["year"] for x in db.execute("SELECT year FROM users WHERE img IS NOT NULL AND img != '' AND year != '' GROUP BY year")]
@@ -143,6 +151,8 @@ def learn_select():
 @app.route("/review", methods=["GET", "POST"])
 @login_required
 def review():
+    if not registered():
+        return apology("Please fill in all required profile fields")
     latest_guesses = db.execute(
         """ SELECT users.img, users.name_first, guesses.correct, guesses.guess FROM users, guesses 
             WHERE guesses.user_id=:u AND bunch=(SELECT MAX(bunch) FROM guesses WHERE user_id=:u)
@@ -178,7 +188,7 @@ def profile():
         db.execute(
             "UPDATE users \
             SET name_first=:n1, name_last=:n2, year=:y, concentration=:c, city=:city, state=:state, country=:country, \
-            q1=:q1, q2=:q2, q3=:q3, a1=:a1, a2=:a2, a3=:a3\
+            q1=:q1, q2=:q2, q3=:q3, a1=:a1, a2=:a2, a3=:a3, classes=:classes, entryway=:e\
             WHERE id=:u",
             u=user,
             n1=request.form.get("name_first"),
@@ -193,7 +203,9 @@ def profile():
             q3=request.form.get("q3-statement"),
             a1=request.form.get("a1"),
             a2=request.form.get("a2"),
-            a3=request.form.get("a3")
+            a3=request.form.get("a3"),
+            classes=request.form.get("classes"),
+            e=request.form.get("entryway")
         )
 
         filename = None
@@ -205,6 +217,12 @@ def profile():
                 if file and allowed_file(file.filename):
                     filename = secure_filename(user + "." + file.filename.rsplit('.', 1)[1].lower())
                     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+                    # remove any old files (might have different extension)
+                    folder = os.listdir(app.config['UPLOAD_FOLDER'])
+                    for item in folder:
+                        if item[:len(user)] == user and item != filename:
+                            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], item))
                 else:
                     return apology("Profile picture must be an image file", 403)
 
@@ -220,10 +238,13 @@ def profile():
         return redirect("/profile")
 
     else:
-        return render_template("profile.html", profile=db.execute(
-            "SELECT id, img, name_first, name_last, city, state, country, year, concentration, entryway, points, q1, q2, q3, a1, a2, a3 FROM users WHERE id=:u",
+        profile = db.execute(
+            "SELECT id, img, name_first, name_last, city, state, country, year,\
+            concentration, entryway, points, q1, q2, q3, a1, a2, a3, classes, username AS 'email' FROM users WHERE id=:u",
             u=user)[0]
-        )
+        if profile["img"] == "None" or profile["img"] == "":
+            profile["img"] = "mather_crest_nobg.png"
+        return render_template("profile.html", profile=profile)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -305,7 +326,7 @@ def register():
         session["user_id"] = id[0]["id"]
 
         # Email the password to the user
-        message = 'Subject: {}\n\n{}'.format("Thanks for registering!", "Hi, thanks for signing up! Your password for 'Remind Me of Your Name is' " + token + ".")
+        message = 'Subject: {}\n\n{}'.format("Thanks for registering!", "Hi, thanks for signing up! Your MeetMather password is " + token + ".")
 
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
         server.ehlo()
@@ -375,3 +396,14 @@ for code in default_exceptions:
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def registered():
+    if not session["user_id"]:
+        return False
+    return len(
+        db.execute(
+            "SELECT id from users WHERE id=:i AND img != '' AND img IS NOT NULL \
+            AND name_first IS NOT NULL AND name_first != '' AND year IS NOT NULL AND year != '' AND concentration IS NOT NULL \
+            AND concentration != ''", i=session["user_id"]
+        )
+    ) == 1

@@ -1,4 +1,7 @@
 $(function() {
+    // set active nav-link
+    document.querySelector(".nav-link[href='/learn_select']").classList.add("active");
+
     const rows = document.querySelectorAll(".person-row");
     for (let i = 0; i < rows.length; i++) {
         if (i % 2 == 1) {

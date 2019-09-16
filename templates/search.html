@@ -111,13 +111,14 @@ Home
                     <div class="front">
                         <img src="../static/images/{{ user.img }}" class="card-img-top">
                         <div class="card-body">
-                            <h2 class="text-center">{{ user.name_first }} {{ user.name_last }}</h2>
+                            <h1 class="text-center">{{ user.name_first }} {{ user.name_last }}</h1>
                         </div>
                     </div>
                     <div class="back text-white">
                         <div class="card-body">
                             <div class="card-title text-center">
                                 <h2>{{ user.name_first }} {{ user.name_last }}</h2>
+                                <a href="mailto:{{user.email}}" class="text-white small"> {{ user.email }}</a>
                             </div>
                             <div class="card-text">
                                 <ul class="fa-ul">

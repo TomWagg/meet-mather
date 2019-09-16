@@ -3,6 +3,10 @@
     --main-theme-border: #3a70bd;
 }
 
+h2 {
+    margin-bottom: 0;
+}
+
 main.container-fluid {
     text-align: left;
 }

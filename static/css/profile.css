@@ -2,6 +2,10 @@ label {
     font-size: 80%;
 }
 
+h2 {
+    margin-bottom: 0;
+}
+
 .pattern {
     background: url('../../static/images/courtyard_leaves.jpg');
     background-repeat: no-repeat;
@@ -52,4 +56,16 @@ label {
     left: 0;
     top: 0;
     opacity: 0;
+}
+
+label.required::after, h5.required::after {
+    content: "*";
+    color: red;
+    padding-left: 3px;
+}
+
+#unit_holder {
+    border: 2px solid rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
 }

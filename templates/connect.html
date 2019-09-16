@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block extra_head %}
+<link href="../static/css/connect.css" rel="stylesheet">
+<script>
+    // set active nav-link
+    document.querySelector(".nav-link[href='/connect']").classList.add("active");
+</script>
+{% endblock %}
+
+{% block main %}
+<div class="row m-2 text-white">
+    <div class="col">
+        <h3 class="text-center">
+            <img class="img-fluid" src="../static/images/the-rampant-lion-gold.png" width="50px">
+            Mather Lion Prides
+            <img class="img-fluid" src="../static/images/the-rampant-lion-gold.png" width="50px">
+        </h3>
+        <p>
+            Form a Mather Lion Pride and study together in groups! Use this tool to find other Matherites that are in
+            the same class
+            and are also looking for a group! Listed below are all of the classes that you have added to your profile.
+        </p>
+        <p>
+            For each class you'll see a list of other
+            Matherites taking this class and their e-mails. We recommend you reach out to each other and organise a time
+            to meet up
+            somewhere in Mather (such as the Dhall or one of the classrooms!).
+        </p>
+    </div>
+</div>
+<div class="match-container row p-2">
+    {% if matches|length > 0 %}
+    {% for match in matches %}
+    <div class="col text-center">
+        <button class="btn btn-danger btn-block mb-2" type="button" data-toggle="collapse"
+            data-target="#{{ match.class }}">
+            {{ match.class }}
+        </button>
+        <div class="collapse" id="{{ match.class }}">
+            {% if match["users"]|length > 0 %}
+            <table class="table table-hover table-striped table-sm">
+                <thead class="thead-light">
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in match["users"] %}
+                    <tr class="table-danger">
+                        <td>
+                            {{ user["name_first"] }} {{ user["name_last"] }}
+                        </td>
+                        <td>
+                            <a href="mailto:{{ user['email'] }}?subject=Mather Study Group for {{ match.class }}&body=Hi {{ user['name_first']}}"
+                                target="_blank">{{ user['email'] }}</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="card card-body">
+                <div class="col">
+                    It looks like you're the only one signed up for this class at the moment sorry! Check back again
+                    soon
+                    and also make sure you wrote the course code correctly.
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="col text-center">
+        <div class="card card-body">
+            <p class="mb-0">
+                It looks like you haven't added any classes yet. Head over to the <a href="/profile"
+                    class="text-danger">profile</a>
+                page to add some!
+            </p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -5,5 +5,13 @@
 {% endblock %}
 
 {% block main %}
-    <img alt="{{ top }}" class="border" src="http://memegen.link/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?alt=https://www.harvardmagazine.com/sites/default/files/styles/4x3_main/public/img/article/0915/maha.jpg" title="{{ top }}">
+<div class="row h-100">
+    <div class="col text-center align-self-end">
+        <img class="img-fluid" src="https://www.harvardmagazine.com/sites/default/files/styles/4x3_main/public/img/article/0915/maha.jpg" title="{{ top }}">
+    </div>
+    <div class="col py-5 align-self-center text-center">
+        <p class="display-1">Maha says</p>
+        <h2>{{ message }}</h2>
+    </div>
+</div>
 {% endblock %}
